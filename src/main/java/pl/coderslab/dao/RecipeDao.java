@@ -90,12 +90,12 @@ public class RecipeDao {
         return recipeList;
     }
 
-    public Recipe read (Integer bookId) {
+    public Recipe read (Integer recipeId) {
         Recipe recipe = new Recipe();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement read = connection.prepareStatement(READ_RECIPE_QUERY)
         ) {
-            read.setInt(1, bookId);
+            read.setInt(1, recipeId);
             try (ResultSet resultSet = read.executeQuery()) {
                 while (resultSet.next()) {
                     recipe.setId(resultSet.getInt("id"));
