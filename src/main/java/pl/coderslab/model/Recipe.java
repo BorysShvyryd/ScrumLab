@@ -90,7 +90,7 @@ public class Recipe {
 
     public int getAdmin_id() { return admin_id; }
 
-    public void setAdmin_id(int admin_id) { this.admin_id = admin_id; }
+    public void setAdmin_id(int admin_id) { this.admin_id = admin_id; } // zmienić później na Admin.getId
 
     @Override
     public String toString() {
