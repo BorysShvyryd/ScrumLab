@@ -17,12 +17,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // hashPassword  - metoda haszowania paroli
+        int adminId = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
 
-        String hashPass = "hashPassword(request.getParameter(\"password\"))";
-
-        if (AdminDao.verificationOfAdminData(request.getParameter("email"), hashPass)) {
-            response.sendRedirect("");
+        if (adminId > 0) {
+            // tutaj podaj id użytkownika do użytku na stronie
+            response.sendRedirect("/dashboard");
         } else {
             response.sendRedirect("/login");
         }
