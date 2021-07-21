@@ -20,6 +20,10 @@ public class Admin {
         this.enable = enable;
     }
 
+    public Admin() {
+
+    }
+
     public int getId() {
         return id;
     }
