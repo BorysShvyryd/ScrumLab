@@ -20,8 +20,7 @@ public class LoginServlet extends HttpServlet {
         int adminId = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
 
         if (adminId > 0) {
-            // tutaj podaj id użytkownika do użytku na stronie
-            response.sendRedirect("/dashboard");
+            response.sendRedirect("/dashboard?id=" + adminId);
         } else {
             response.sendRedirect("/login");
         }
