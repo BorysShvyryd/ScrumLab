@@ -10,10 +10,10 @@ public class Recipe {
     private String updated;
     private int preparation_time;
     private String preparation;
-    private int admin_id;
+    private int adminId;
 
     public Recipe(String name, String ingredients, String description, String created,
-                  String updated, int preparation_time, String preparation, int admin_id) {
+                  String updated, int preparation_time, String preparation, int adminId) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
@@ -21,7 +21,7 @@ public class Recipe {
         this.updated = updated;
         this.preparation_time = preparation_time;
         this.preparation = preparation;
-        this.admin_id = admin_id;
+        this.adminId = adminId;
     }
 
     public Recipe() {
@@ -88,9 +88,9 @@ public class Recipe {
         this.preparation = preparation;
     }
 
-    public int getAdmin_id() { return admin_id; }
+    public int getAdminId() { return adminId; }
 
-    public void setAdmin_id(int admin_id) { this.admin_id = admin_id; } // zmienić później na Admin.getId
+    public void setAdminId(int adminId) { this.adminId = adminId; } // zmienić później na Admin.getId
 
     @Override
     public String toString() {
@@ -103,7 +103,7 @@ public class Recipe {
                 ", updated='" + updated + '\'' +
                 ", preparation_time=" + preparation_time +
                 ", preparation='" + preparation + '\'' +
-                ", admin_id=" + admin_id +
+                ", admin_id=" + adminId +
                 '}';
     }
 }
