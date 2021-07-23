@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
 
@@ -26,16 +27,23 @@ public class AdminDao {
             statement.setString(4, admin.getPassword());
 //            statement.setInt(5, admin.getSuperadmin());
 //            statement.setInt(6, admin.getEnable());
-            statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                admin.setId(resultSet.getInt(1));
+            int result = statement.executeUpdate();
+
+            if (result != 1) {
+                throw new RuntimeException("Execute update returned " + result);
             }
-            return admin;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.first()) {
+                    admin.setId(generatedKeys.getInt(1));
+                    return admin;
+                } else {
+                    throw new RuntimeException("Generated key was not found");
+                }
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
+        return null;
     }
 
     public static void delete(int id) {
@@ -44,7 +52,12 @@ public class AdminDao {
 
             statement.setInt(1, id);
             statement.executeUpdate();
-        } catch (SQLException e) {
+
+            boolean deleted = statement.execute();
+            if (!deleted) {
+                throw new NotFoundException("User not found");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -95,8 +108,8 @@ public class AdminDao {
                     admin.setEnable(resultSet.getInt("enable"));
                 }
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
         return admin;
     }
