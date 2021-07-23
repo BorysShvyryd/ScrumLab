@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    getServletContext().getRequestDispatcher("/registration.html").forward(request, response);
+    getServletContext().getRequestDispatcher("/registration.jsp").forward(request, response);
     }
 
     @Override
@@ -18,6 +18,7 @@ public class Register extends HttpServlet {
         String surname = request.getParameter("surname");
         String email = request.getParameter("email");
         String[] passwords = request.getParameterValues("password");
+        response.sendRedirect("/login.jsp");
 
 /*        response.getWriter().append(name).append("\n");
         response.getWriter().append(surname).append("\n");
