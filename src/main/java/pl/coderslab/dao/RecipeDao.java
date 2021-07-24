@@ -28,7 +28,7 @@ public class RecipeDao {
             insert.setString(3, recipe.getDescription());
             insert.setInt(4, recipe.getPreparation_time());
             insert.setString(5, recipe.getPreparation());
-            insert.setInt(6, recipe.getAdmin_id());
+            insert.setInt(6, recipe.getAdminId());
             int result = insert.executeUpdate();
 
             if (result != 1) {
@@ -80,8 +80,7 @@ public class RecipeDao {
                 recipeToAdd.setUpdated(resultSet.getString("updated"));
                 recipeToAdd.setPreparation_time(resultSet.getInt("preparation_time"));
                 recipeToAdd.setPreparation(resultSet.getString("preparation"));
-                recipeToAdd.setAdmin_id(resultSet.getInt("admin_id"));
-
+                recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
                 recipeList.add(recipeToAdd);
             }
         }catch (SQLException exception) {
@@ -106,7 +105,7 @@ public class RecipeDao {
                     recipe.setUpdated(resultSet.getString("updated"));
                     recipe.setPreparation_time(resultSet.getInt("preparation_time"));
                     recipe.setPreparation(resultSet.getString("preparation"));
-                    recipe.setAdmin_id(resultSet.getInt("admin_id"));
+                    recipe.setAdminId(resultSet.getInt("admin_id"));
                 }
             }
         }catch (Exception exception) {

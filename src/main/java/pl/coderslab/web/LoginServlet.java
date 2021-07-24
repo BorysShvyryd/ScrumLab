@@ -1,6 +1,7 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.AdminDao;
+import pl.coderslab.model.Admin;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -17,11 +18,25 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int adminId = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
+        String errorMessage = "";
+        Admin admin = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
+        if (admin != null) {
+            HttpSession session = request.getSession();
+            Admin user = new Admin();
+            AdminDao.storeLoginedUser(session, admin);
+            session.setMaxInactiveInterval(6*60*60);
 
+        //AdminDao admin =
+        int adminId = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
+        //  if (admin != null) {
         if (adminId > 0) {
-            response.sendRedirect("/dashboard?id=" + adminId);
+            HttpSession session = request.getSession();
+            AdminDao user = new AdminDao();
+            AdminDao.storeLoginedUser(session, user);
+            session.setMaxInactiveInterval(6*60*60);
+            response.sendRedirect("/dashboard");
         } else {
+            errorMessage = "Invalid Email or Password";
             response.sendRedirect("/login");
         }
     }
