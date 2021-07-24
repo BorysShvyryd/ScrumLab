@@ -20,9 +20,9 @@ import java.util.List;
 public class HomeServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RecipeDao recipeDao = new RecipeDao();
-        List<Recipe> recipes = recipeDao.findAll();
-        System.out.println(recipes);
+//        RecipeDao recipeDao = new RecipeDao();
+//        List<Recipe> recipes = recipeDao.findAll();
+//        System.out.println(recipes);
 
         getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
     }
