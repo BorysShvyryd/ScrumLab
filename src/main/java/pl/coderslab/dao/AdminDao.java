@@ -7,6 +7,11 @@ import pl.coderslab.utils.DbUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class AdminDao {
 
@@ -99,7 +104,7 @@ public class AdminDao {
             statement.setInt(1, adminId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    admin.setId(resultSet.getInt("adminId"));
+                    admin.setId(resultSet.getInt("id"));
                     admin.setFirstName(resultSet.getString("first_name"));
                     admin.setLastName(resultSet.getString("last_name"));
                     admin.setEmail(resultSet.getString("email"));
@@ -113,6 +118,7 @@ public class AdminDao {
         }
         return admin;
     }
+
     public static void update(Admin admin) {
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement statement = conn.prepareStatement(UPDATE_ADMIN_QUERY)) {
@@ -136,26 +142,45 @@ public class AdminDao {
      * Metoda umożliwiające sprawdzanie danych autoryzacyjnych.
      *
      * @param email - wprowadzony email użytkownika
-     * @param pass - wprowadzone hasło użytkownika
+     * @param pass  - wprowadzone hasło użytkownika
      * @return - metoda zwraca:
-     *      przy autoryzacji - id użytkownika,
-     *      '-1' - jeśli użytkownik z takim adresem e-mail nie istnieje,
-     *      '0' - jeśli zostanie wprowadzone nieprawidłowe hasło.
+     * przy autoryzacji - obiekt użytkownika,
+     * 'null' - jeśli użytkownik z takim adresem e-mail nie istnieje,
      */
-    public static int verificationOfAdminData(String email, String pass) {
+    public static Admin verificationOfAdminData(String email, String pass) {
         try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(SEARCH_ADMIN_FOR_EMAIL_QUERY)) {
             ps.setString(1, email);
 
             ResultSet resultSet = ps.executeQuery();
+
             if (resultSet.next()) {
-                if (BCrypt.checkpw(pass, resultSet.getString("password")))
-                    return resultSet.getInt("id");
-                else
-                    return 0;
+                if (BCrypt.checkpw(pass, resultSet.getString("password"))) {
+                    return read(Integer.parseInt(resultSet.getString("id")));
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return -1;
+        return null;
+    }
+
+    /**
+     * Metoda przechowuje obiekt zalogowanego użytkownika w sesji
+     *
+     * @param session      - HttpSession session
+     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
+     */
+    public static void storeLoginedUser(HttpSession session, Admin loginedAdmin) {
+        session.setAttribute("loginedUser", loginedAdmin);
+    }
+
+    /**
+     * Metoda pobiera obiekt zalogowanego użytkownika
+     *
+     * @param session - HttpSession session
+     * @return - obiekt Admin zalogowanego użytkownika
+     */
+    public static Admin getLoginedAdmin(HttpSession session) {
+        return (Admin) session.getAttribute("loginedUser");
     }
 }
