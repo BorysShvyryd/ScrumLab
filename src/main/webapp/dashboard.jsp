@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="/header.jsp" %><section class="dashboard-section">
+<%@ include file="/headerLogined.jsp" %><section class="dashboard-section">
 
     <div class="row dashboard-nowrap">
         <ul class="nav flex-column long-bg">
@@ -138,4 +138,4 @@
     </div>
 </section>
 
-<%@ include file="/footer.jsp" %>
+<%@ include file="/footerLogined.jsp" %>
