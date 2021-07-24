@@ -6,17 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
-
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
-import pl.coderslab.utils.DbUtil;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +128,7 @@ public class PlanDao {
 
     /**
      * Metodę pobierającą liczbę planów dodanych przez aktualnie zalogowanego użytkownika.
+     *
      * @param adminId - id aktualnie zalogowanego użytkownika
      * @return - liczbę planów
      */
@@ -151,4 +145,4 @@ public class PlanDao {
         return 0;
     }
 
-    }
+}

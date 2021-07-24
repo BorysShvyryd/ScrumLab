@@ -144,8 +144,8 @@ public class AdminDao {
      * @param email - wprowadzony email użytkownika
      * @param pass  - wprowadzone hasło użytkownika
      * @return - metoda zwraca:
-     * przy autoryzacji - obiekt użytkownika,
-     * 'null' - jeśli użytkownik z takim adresem e-mail nie istnieje,
+     *      przy autoryzacji - obiekt użytkownika,
+     *      'null' - jeśli użytkownik z takim adresem e-mail nie istnieje,
      */
     public static Admin verificationOfAdminData(String email, String pass) {
         try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(SEARCH_ADMIN_FOR_EMAIL_QUERY)) {

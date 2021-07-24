@@ -22,7 +22,7 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
 
         //#5 PlanDao - metoda pobierająca ostatnio dodany plan
-        //request.setAttribute("lastPlan", PlanDao.LastPlan(userId));
+        //request.setAttribute("lastPlan", PlanDao.LastPlan(loginedAdmin.getId()));
 
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
