@@ -3,6 +3,7 @@ package pl.coderslab.dao;
 import org.mindrot.jbcrypt.BCrypt;
 import pl.coderslab.utils.DbUtil;
 
+import javax.servlet.http.HttpSession;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,5 +36,24 @@ public class AdminDao {
             throwables.printStackTrace();
         }
         return -1;
+    }
+
+    /**
+     *  Metoda przechowuje obiekt zalogowanego użytkownika w sesji
+     * @param session - HttpSession session
+     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
+     */
+    public static void storeLoginedUser(HttpSession session, AdminDao loginedAdmin) {
+        // JSP -> ${loginedAdmin`}
+        session.setAttribute("loginedUser", loginedAdmin);
+    }
+
+    /**
+     *  Metoda pobiera obiekt zalogowanego użytkownika
+     * @param session - HttpSession session
+     * @return - obiekt AdminDao zalogowanego użytkownika
+     */
+    public static AdminDao getLoginedAdmin(HttpSession session) {
+        return (AdminDao) session.getAttribute("loginedAdmin");
     }
 }

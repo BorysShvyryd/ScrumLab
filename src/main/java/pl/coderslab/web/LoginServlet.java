@@ -17,11 +17,19 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String errorMessage = "";
+        //AdminDao admin =
         int adminId = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
-
+        //  if (admin != null) {
         if (adminId > 0) {
-            response.sendRedirect("/dashboard?id=" + adminId);
+            HttpSession session = request.getSession();
+            AdminDao user = new AdminDao();
+            AdminDao.storeLoginedUser(session, user);
+            session.setMaxInactiveInterval(6*60*60);
+
+            response.sendRedirect("/dashboard");
         } else {
+            errorMessage = "Invalid Email or Password";
             response.sendRedirect("/login");
         }
     }
