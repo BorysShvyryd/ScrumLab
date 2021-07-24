@@ -3,14 +3,12 @@ package pl.coderslab.dao;
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AdminDao {
@@ -182,5 +180,24 @@ public class AdminDao {
      */
     public static Admin getLoginedAdmin(HttpSession session) {
         return (Admin) session.getAttribute("loginedUser");
+    }
+
+    /**
+     *  Metoda przechowuje obiekt zalogowanego użytkownika w sesji
+     * @param session - HttpSession session
+     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
+     */
+    public static void storeLoginedUser(HttpSession session, AdminDao loginedAdmin) {
+        // JSP -> ${loginedAdmin`}
+        session.setAttribute("loginedUser", loginedAdmin);
+    }
+
+    /**
+     *  Metoda pobiera obiekt zalogowanego użytkownika
+     * @param session - HttpSession session
+     * @return - obiekt AdminDao zalogowanego użytkownika
+     */
+    public static AdminDao getLoginedAdmin(HttpSession session) {
+        return (AdminDao) session.getAttribute("loginedAdmin");
     }
 }
