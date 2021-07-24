@@ -5,7 +5,6 @@ import pl.coderslab.utils.DbUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
 
@@ -15,6 +14,7 @@ import java.util.List;
 
 public class PlanDao {
 
+    private static final String NUMBER_USER_PLAN_QUERY = "SELECT COUNT(id) AS count_id FROM plan WHERE admin_id = ?";
     private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?, CURRENT_TIMESTAMP, ?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
@@ -128,7 +128,6 @@ public class PlanDao {
 
     /**
      * Metodę pobierającą liczbę planów dodanych przez aktualnie zalogowanego użytkownika.
-     *
      * @param adminId - id aktualnie zalogowanego użytkownika
      * @return - liczbę planów
      */

@@ -15,6 +15,7 @@ public class Main001 extends HttpServlet {
         DayNameDao dayNameDao = new DayNameDao();
         System.out.println(dayNameDao.findAll());
         response.getWriter().append(dayNameDao.findAll().toString());
+
         response.getWriter().append("\n");
         PlanDao planDao = new PlanDao();
         System.out.println(planDao.findAll());

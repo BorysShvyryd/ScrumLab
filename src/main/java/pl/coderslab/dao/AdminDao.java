@@ -1,5 +1,14 @@
 package pl.coderslab.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
+import pl.coderslab.utils.DbUtil;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class AdminDao {
+
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
@@ -134,13 +143,13 @@ public class AdminDao {
         }
     }
 
-    private static final String SEARCH_ADMIN_FOR_EMAIL_QUERY = "SELECT id, email, password FROM admins WHERE email = ?";
+  private static final String SEARCH_ADMIN_FOR_EMAIL_QUERY = "SELECT id, email, password FROM admins WHERE email = ?";
 
     /**
      * Metoda umożliwiające sprawdzanie danych autoryzacyjnych.
      *
      * @param email - wprowadzony email użytkownika
-     * @param pass  - wprowadzone hasło użytkownika
+     * @param pass - wprowadzone hasło użytkownika
      * @return - metoda zwraca:
      *      przy autoryzacji - obiekt użytkownika,
      *      'null' - jeśli użytkownik z takim adresem e-mail nie istnieje,
@@ -150,7 +159,6 @@ public class AdminDao {
             ps.setString(1, email);
 
             ResultSet resultSet = ps.executeQuery();
-
             if (resultSet.next()) {
                 if (BCrypt.checkpw(pass, resultSet.getString("password"))) {
                     return read(Integer.parseInt(resultSet.getString("id")));
@@ -160,26 +168,6 @@ public class AdminDao {
             throwables.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * Metoda przechowuje obiekt zalogowanego użytkownika w sesji
-     *
-     * @param session      - HttpSession session
-     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
-     */
-    public static void storeLoginedUser(HttpSession session, Admin loginedAdmin) {
-        session.setAttribute("loginedUser", loginedAdmin);
-    }
-
-    /**
-     * Metoda pobiera obiekt zalogowanego użytkownika
-     *
-     * @param session - HttpSession session
-     * @return - obiekt Admin zalogowanego użytkownika
-     */
-    public static Admin getLoginedAdmin(HttpSession session) {
-        return (Admin) session.getAttribute("loginedUser");
     }
 
     /**
