@@ -16,19 +16,11 @@ public class DashboardServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Admin loginedAdmin = AdminDao.getLoginedAdmin(session);
         request.setAttribute("loginedAdmin", loginedAdmin);
-
         request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(loginedAdmin.getId()));
         request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
 
         //#5 PlanDao - metoda pobierająca ostatnio dodany plan
         //request.setAttribute("lastPlan", PlanDao.LastPlan(loginedAdmin.getId()));
-
-//         int userId = Integer.parseInt(request.getParameter("id"));
-//         request.setAttribute("userId", userId);
-        request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(userId));
-        request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(userId));
-
-//request.setAttribute("lastPlan", AdminDao.LastPlan(userId));
 
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
