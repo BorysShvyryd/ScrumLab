@@ -171,11 +171,14 @@ public class AdminDao {
     }
 
     /**
-     *  Metoda przechowuje obiekt zalogowanego użytkownika w sesji
-     * @param session - HttpSession session
-     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
+
+     * Metoda przechowuje obiekt zalogowanego użytkownika w sesji
+     *
+     * @param session      - HttpSession session
+     * @param loginedAdmin - obiekt Admin zalogowanego użytkownika
+
      */
-    public static void storeLoginedUser(HttpSession session, AdminDao loginedAdmin) {
+    public static void storeLoginedUser(HttpSession session, Admin loginedAdmin) {
         // JSP -> ${loginedAdmin`}
         session.setAttribute("loginedUser", loginedAdmin);
     }
@@ -183,9 +186,9 @@ public class AdminDao {
     /**
      *  Metoda pobiera obiekt zalogowanego użytkownika
      * @param session - HttpSession session
-     * @return - obiekt AdminDao zalogowanego użytkownika
+     * @return - obiekt Admin zalogowanego użytkownika
      */
-    public static AdminDao getLoginedAdmin(HttpSession session) {
+    public static Admin getLoginedAdmin(HttpSession session) {
         return (AdminDao) session.getAttribute("loginedAdmin");
     }
 }

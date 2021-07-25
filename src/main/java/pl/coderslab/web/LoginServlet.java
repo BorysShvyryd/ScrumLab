@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
         if (admin != null) {
             HttpSession session = request.getSession();
             Admin user = new Admin();
-            AdminDao.storeLoginedUser(session, admin);
+            AdminDao.storeLoginedUser(session, user);
             session.setMaxInactiveInterval(6*60*60);
 
         //AdminDao admin =
