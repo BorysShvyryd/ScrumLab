@@ -19,11 +19,19 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String errorMessage = "";
-
         Admin admin = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
         if (admin != null) {
             HttpSession session = request.getSession();
             AdminDao.storeLoginedUser(session, admin);
+            session.setMaxInactiveInterval(6*60*60);
+
+        //AdminDao admin =
+        int adminId = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
+        //  if (admin != null) {
+        if (adminId > 0) {
+            HttpSession session = request.getSession();
+            AdminDao user = new AdminDao();
+            AdminDao.storeLoginedUser(session, user);
             session.setMaxInactiveInterval(6*60*60);
             response.sendRedirect("/dashboard");
         } else {
