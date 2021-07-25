@@ -168,7 +168,7 @@ public class AdminDao {
      * Metoda przechowuje obiekt zalogowanego użytkownika w sesji
      *
      * @param session      - HttpSession session
-     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
+     * @param loginedAdmin - obiekt Admin zalogowanego użytkownika
      */
     public static void storeLoginedUser(HttpSession session, Admin loginedAdmin) {
         session.setAttribute("loginedUser", loginedAdmin);
