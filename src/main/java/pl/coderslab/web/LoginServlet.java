@@ -22,8 +22,7 @@ public class LoginServlet extends HttpServlet {
         Admin admin = AdminDao.verificationOfAdminData(request.getParameter("email"), request.getParameter("password"));
         if (admin != null) {
             HttpSession session = request.getSession();
-            Admin user = new Admin();
-            AdminDao.storeLoginedUser(session, user);
+            AdminDao.storeLoginedUser(session, admin);
             session.setMaxInactiveInterval(6*60*60);
 
         //AdminDao admin =
