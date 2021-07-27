@@ -1,5 +1,6 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.model.DayName;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.PreparedStatement;
@@ -14,6 +15,12 @@ import java.util.List;
 
 public class PlanDao {
 
+    private static final String LAST_ADDED_PLAN_QUERY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+            "FROM `recipe_plan`\n" +
+            "         JOIN day_name on day_name.id=day_name_id\n" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "        recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String NUMBER_USER_PLAN_QUERY = "SELECT COUNT(id) AS count_id FROM plan WHERE admin_id = ?";
     private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?, CURRENT_TIMESTAMP, ?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
@@ -142,5 +149,31 @@ public class PlanDao {
         }
         return 0;
     }
+    /**
+     * Metodę pobierającą ostatni dodany plan przez aktualnie zalogowanego użytkownika.
+     * @param adminId - id aktualnie zalogowanego użytkownika
+     * @return - ostatni dodany plan
+     */
+    public Plan lastAddedPlan (int adminId) {
+        try(Connection connection = DbUtil.getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY);
+            preparedStatement.setInt(1, adminId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                Plan plan = new Plan();
+                plan.setId(resultSet.getInt("id"));
+                plan.setName(resultSet.getString("name"));
+                plan.setDescription(resultSet.getString("description"));
+                plan.setCreated(resultSet.getString("created"));
+                plan.setAdminId(resultSet.getInt("admin_id"));
+                return plan;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

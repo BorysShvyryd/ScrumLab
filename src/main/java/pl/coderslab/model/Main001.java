@@ -20,6 +20,8 @@ public class Main001 extends HttpServlet {
         PlanDao planDao = new PlanDao();
         System.out.println(planDao.findAll());
         response.getWriter().append(planDao.findAll().toString());
+
+        System.out.println(planDao.lastAddedPlan(1));
     }
 
     @Override
