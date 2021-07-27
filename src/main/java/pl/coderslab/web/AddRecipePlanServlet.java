@@ -1,9 +1,7 @@
 package pl.coderslab.web;
 
-import pl.coderslab.dao.DayNameDao;
-import pl.coderslab.dao.PlanDao;
-import pl.coderslab.dao.RecipeDao;
-import pl.coderslab.dao.RecipePlanDao;
+import pl.coderslab.dao.*;
+import pl.coderslab.model.Admin;
 import pl.coderslab.model.DayName;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
@@ -18,6 +16,9 @@ import java.util.List;
 public class AddRecipePlanServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Admin loginedAdmin = AdminDao.getLoginedAdmin(session);
+        request.setAttribute("loginedAdmin", loginedAdmin);
         List<Plan> planList = PlanDao.findAll();
         request.setAttribute("planList", planList);
         List<Recipe> recipeList = RecipeDao.findAll();
