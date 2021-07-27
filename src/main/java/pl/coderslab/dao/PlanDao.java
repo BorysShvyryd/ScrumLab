@@ -43,7 +43,7 @@ public class PlanDao {
 
     }
 
-    public List<Plan> findAll() {
+    public static List<Plan> findAll() {
         List<Plan> planList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_PLANS_QUERY);
