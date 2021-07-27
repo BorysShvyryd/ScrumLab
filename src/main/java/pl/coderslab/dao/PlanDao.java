@@ -1,11 +1,13 @@
 package pl.coderslab.dao;
 
 import pl.coderslab.model.DayName;
+import pl.coderslab.model.PlanList;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
 
@@ -27,6 +29,7 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = CURRENT_TIMESTAMP, admin_id = ? WHERE id = ?;";
+    private static final String FIND_NEW_PLAN = "SELECT MAX(id) from plan WHERE admin_id = ?";
 
     public Plan read(Integer planId) {
         Plan plan = new Plan();
@@ -73,7 +76,7 @@ public class PlanDao {
 
     }
 
-    public Plan create(Plan plan) {
+    public static Plan create(Plan plan) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREATE_PLAN_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -134,6 +137,7 @@ public class PlanDao {
 
     /**
      * Metodę pobierającą liczbę planów dodanych przez aktualnie zalogowanego użytkownika.
+     *
      * @param adminId - id aktualnie zalogowanego użytkownika
      * @return - liczbę planów
      */
@@ -149,31 +153,27 @@ public class PlanDao {
         }
         return 0;
     }
-    /**
-     * Metodę pobierającą ostatni dodany plan przez aktualnie zalogowanego użytkownika.
-     * @param adminId - id aktualnie zalogowanego użytkownika
-     * @return - ostatni dodany plan
-     */
-    public Plan lastAddedPlan (int adminId) {
-        try(Connection connection = DbUtil.getConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY);
-            preparedStatement.setInt(1, adminId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                Plan plan = new Plan();
-                plan.setId(resultSet.getInt("id"));
-                plan.setName(resultSet.getString("name"));
-                plan.setDescription(resultSet.getString("description"));
-                plan.setCreated(resultSet.getString("created"));
-                plan.setAdminId(resultSet.getInt("admin_id"));
-                return plan;
+
+    public PlanList lastPlan(int adminId) throws SQLException {
+        PlanList planList = new PlanList();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY)
+        ) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    planList.setDayName(resultSet.getString("day_name"));
+                    planList.setMealName(resultSet.getString("meal_name"));
+                    planList.setRecipeName(resultSet.getString("recipe_name"));
+                    planList.setRecipeDescription(resultSet.getString("recipe_description"));
+                    System.out.println(planList.getDayName());
+                    System.out.println(planList.getMealName());
+                }
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+            return planList;
         }
-        return null;
     }
-
-
 }

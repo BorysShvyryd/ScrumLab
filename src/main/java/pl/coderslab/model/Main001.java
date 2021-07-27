@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/main001")
 public class Main001 extends HttpServlet {
@@ -20,8 +21,12 @@ public class Main001 extends HttpServlet {
         PlanDao planDao = new PlanDao();
         System.out.println(planDao.findAll());
         response.getWriter().append(planDao.findAll().toString());
-
-        System.out.println(planDao.lastAddedPlan(1));
+        response.getWriter().append("\n");
+        try {
+            System.out.println(planDao.lastPlan(1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
