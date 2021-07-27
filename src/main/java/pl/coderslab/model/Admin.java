@@ -16,7 +16,7 @@ public class Admin {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        setPassword(password);
+        this.password = password;
         this.superadmin = superadmin;
     }
 
@@ -61,7 +61,7 @@ public class Admin {
     }
 
     public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.password = password;
     }
 
     public int getSuperadmin() {

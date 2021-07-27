@@ -29,7 +29,7 @@ public class AdminDao {
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getLastName());
             statement.setString(3, admin.getEmail());
-            statement.setString(4, admin.getPassword());
+            statement.setString(4, hashPassword(admin.getPassword()));
             statement.setInt(5, admin.getSuperadmin());
 //            statement.setInt(6, admin.getEnable());
             int result = statement.executeUpdate();
@@ -49,6 +49,10 @@ public class AdminDao {
             exception.printStackTrace();
         }
         return null;
+    }
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public static void delete(int id) {
