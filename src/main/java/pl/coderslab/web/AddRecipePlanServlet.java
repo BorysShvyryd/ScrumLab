@@ -3,6 +3,7 @@ package pl.coderslab.web;
 import pl.coderslab.dao.DayNameDao;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
+import pl.coderslab.dao.RecipePlanDao;
 import pl.coderslab.model.DayName;
 import pl.coderslab.model.Plan;
 import pl.coderslab.model.Recipe;
@@ -28,13 +29,13 @@ public class AddRecipePlanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getParameter("select_plan"));
-        System.out.println(request.getParameter("meal_number"));
-        System.out.println(request.getParameter("meal_name"));
-        System.out.println(request.getParameter("select_recipe"));
-        System.out.println(request.getParameter("select_day"));
-//                AdminDao.getLoginedAdmin(request.getSession()).getId());
-        response.sendRedirect("/app/recipe/plan/add");
-//        doGet(request, response);
+        RecipePlanDao.saveRecipePlanToDB(
+                Integer.parseInt(request.getParameter("select_recipe")),
+                request.getParameter("meal_name"),
+                Integer.parseInt(request.getParameter("meal_number")),
+                Integer.parseInt(request.getParameter("select_day")),
+                Integer.parseInt(request.getParameter("select_plan")));
+
+        doGet(request, response);
     }
 }

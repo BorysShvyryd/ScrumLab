@@ -5,7 +5,7 @@
 
 <div class="m-4 p-3 width-medium">
     <div class="dashboard-content border-dashed p-3 m-4 view-height">
-        <form action="" method="post">
+        <form action="/app/recipe/plan/add" method="post">
         <div class="row border-bottom border-3 p-1 m-1">
             <div class="col noPadding">
                 <h3 class="color-header text-uppercase">DODAJ PRZEPIS DO PLANU</h3>
@@ -16,7 +16,6 @@
         </div>
 
         <div class="schedules-content">
-<%--            <form action="app/recipe/plan/add" method="post">--%>
                 <div class="form-group row">
                     <label for="choosePlan" class="col-sm-2 label-size col-form-label">
                         Wybierz plan
@@ -24,7 +23,7 @@
                     <div class="col-sm-3">
                         <select class="form-control" id="choosePlan" name="select_plan">
                             <c:forEach var="plan" items="${planList}">
-                                <option>${plan.name}</option>
+                                <option value="${plan.id}">${plan.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -42,7 +41,7 @@
                         Numer posiłku
                     </label>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" value="" id="number" name="meal_number" placeholder="Numer posiłki">
+                        <input type="number" class="form-control" value="" id="number" name="meal_number" placeholder="Numer posiłki">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -52,7 +51,7 @@
                     <div class="col-sm-4">
                         <select class="form-control" id="recipie" name="select_recipe">
                             <c:forEach var="recipe" items="${recipeList}">
-                                <option>${recipe.name}</option>
+                                <option value="${recipe.id}">${recipe.name}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -64,12 +63,11 @@
                     <div class="col-sm-2">
                         <select class="form-control" id="day" name="select_day">
                             <c:forEach var="day" items="${dayList}">
-                                <option>${day.name}</option>
+                                <option value="${day.id}">${day.name}</option>
                             </c:forEach>
                         </select>
                     </div>
                 </div>
-<%--            </form>--%>
         </div>
         </form>
     </div>
