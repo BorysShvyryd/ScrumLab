@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ include file="/headerLogined.jsp" %>
+
 <section class="dashboard-section">
 
     <div class="row dashboard-nowrap">
@@ -13,7 +14,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/app/recipe/list/">
+                <a class="nav-link" href="/app/recipe/list">
                     <span>Przepisy</span>
                     <i class="fas fa-angle-right"></i>
                 </a>
