@@ -5,23 +5,13 @@ import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
 
-import javax.servlet.http.HttpSession;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
-/*public class AdminDao {
-
-import pl.coderslab.exception.NotFoundException;
-import pl.coderslab.model.Admin;
-import pl.coderslab.utils.DbUtil;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.http.HttpSession;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.mindrot.jbcrypt.BCrypt;*/
+import javax.servlet.http.HttpSession;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminDao {
 
@@ -146,7 +136,7 @@ public class AdminDao {
         }
     }
 
-  private static final String SEARCH_ADMIN_FOR_EMAIL_QUERY = "SELECT id, email, password FROM admins WHERE email = ?";
+    private static final String SEARCH_ADMIN_FOR_EMAIL_QUERY = "SELECT id, email, password FROM admins WHERE email = ?";
 
     /**
      * Metoda umożliwiające sprawdzanie danych autoryzacyjnych.
@@ -154,7 +144,7 @@ public class AdminDao {
      * @param email - wprowadzony email użytkownika
      * @param pass - wprowadzone hasło użytkownika
      * @return - metoda zwraca:
-     *      przy autoryzacji - obiekt użytkownika,
+     *      przy autoryzacji - obiekt Admin użytkownika,
      *      'null' - jeśli użytkownik z takim adresem e-mail nie istnieje,
      */
     public static Admin verificationOfAdminData(String email, String pass) {
@@ -174,21 +164,22 @@ public class AdminDao {
     }
 
     /**
-     *  Metoda przechowuje obiekt zalogowanego użytkownika w sesji
-     * @param session - HttpSession session
-     * @param loginedAdmin - obiekt AdminDao zalogowanego użytkownika
+     * Metoda przechowuje obiekt zalogowanego użytkownika w sesji
+     *
+     * @param session      - HttpSession session
+     * @param loginedAdmin - obiekt Admin zalogowanego użytkownika
      */
-    public static void storeLoginedUser(HttpSession session, AdminDao loginedAdmin) {
+    public static void storeLoginedUser(HttpSession session, Admin loginedAdmin) {
         // JSP -> ${loginedAdmin`}
-        session.setAttribute("loginedUser", loginedAdmin);
+        session.setAttribute("loginedAdmin", loginedAdmin);
     }
 
     /**
      *  Metoda pobiera obiekt zalogowanego użytkownika
      * @param session - HttpSession session
-     * @return - obiekt AdminDao zalogowanego użytkownika
+     * @return - obiekt Admin zalogowanego użytkownika
      */
-    public static AdminDao getLoginedAdmin(HttpSession session) {
-        return (AdminDao) session.getAttribute("loginedAdmin");
+    public static Admin getLoginedAdmin(HttpSession session) {
+        return (Admin) session.getAttribute("loginedAdmin");
     }
 }
