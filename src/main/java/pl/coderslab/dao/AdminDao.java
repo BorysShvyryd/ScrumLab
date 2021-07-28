@@ -1,27 +1,27 @@
 package pl.coderslab.dao;
 
 import org.mindrot.jbcrypt.BCrypt;
+import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import pl.coderslab.exception.NotFoundException;
-import pl.coderslab.model.Admin;
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpSession;
 
 public class AdminDao {
 
-    private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins(id, first_name, last_name, email, password, superadmin, enable) VALUES (0, ?, ?, ?, ?, 0, 0);";
+    private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins(first_name, last_name, email, password, superadmin) VALUES (?, ?, ?, ?, ?);";
     private static final String DELETE_ADMIN_QUERY = "DELETE FROM admins WHERE id = ?;";
     private static final String FIND_ALL_ADMINS_QUERY = "SELECT * FROM admins;";
     private static final String READ_ADMIN_QUERY = "SELECT * FROM admins WHERE id = ?;";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name = ?, last_name = ?, email = ?, password = ?, superadmin = ?, enable = ? WHERE id = ?;";
 
-    public static Admin create(Admin admin) {
+    public Admin create(Admin admin) {
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement statement =
                      conn.prepareStatement(CREATE_ADMIN_QUERY, Statement.RETURN_GENERATED_KEYS)) {
@@ -29,8 +29,8 @@ public class AdminDao {
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getLastName());
             statement.setString(3, admin.getEmail());
-            statement.setString(4, admin.getPassword());
-//            statement.setInt(5, admin.getSuperadmin());
+            statement.setString(4, hashPassword(admin.getPassword()));
+            statement.setInt(5, admin.getSuperadmin());
 //            statement.setInt(6, admin.getEnable());
             int result = statement.executeUpdate();
 
@@ -49,6 +49,10 @@ public class AdminDao {
             exception.printStackTrace();
         }
         return null;
+    }
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public static void delete(int id) {
