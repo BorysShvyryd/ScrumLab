@@ -1,5 +1,8 @@
 package pl.coderslab.web;
 
+import pl.coderslab.dao.AdminDao;
+import pl.coderslab.model.Admin;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -18,7 +21,18 @@ public class Register extends HttpServlet {
         String surname = request.getParameter("surname");
         String email = request.getParameter("email");
         String[] passwords = request.getParameterValues("password");
-        response.sendRedirect("/login.jsp");
+
+        Admin admin = new Admin();
+        AdminDao adminDao = new AdminDao();
+        admin.setFirstName(name);
+        admin.setLastName(surname);
+        admin.setEmail(email);
+        admin.setPassword(passwords[0]);
+
+        adminDao.create(admin);
+
+
+        response.sendRedirect("/login");
 
 /*        response.getWriter().append(name).append("\n");
         response.getWriter().append(surname).append("\n");
