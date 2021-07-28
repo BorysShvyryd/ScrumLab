@@ -3,7 +3,7 @@ package pl.coderslab.model;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Admin {
-    private int id;
+    private static int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -24,7 +24,7 @@ public class Admin {
 
     }
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 
