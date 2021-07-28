@@ -28,7 +28,9 @@ public class Register extends HttpServlet {
         admin.setLastName(surname);
         admin.setEmail(email);
         admin.setPassword(passwords[0]);
+
         adminDao.create(admin);
+
 
         response.sendRedirect("/login.jsp");
 
