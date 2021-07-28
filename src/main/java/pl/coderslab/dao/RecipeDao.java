@@ -19,7 +19,7 @@ public class RecipeDao {
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ?, ingredients = ?, description = ?, " +
             "updated = CURRENT_TIMESTAMP, preparation_time = ?, preparation = ? WHERE id = ?;";
 
-    public Recipe create (Recipe recipe) throws SQLException {
+    public static Recipe create (Recipe recipe) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insert =connection.prepareStatement(CREATE_RECIPE_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -28,7 +28,7 @@ public class RecipeDao {
             insert.setString(3, recipe.getDescription());
             insert.setInt(4, recipe.getPreparation_time());
             insert.setString(5, recipe.getPreparation());
-            insert.setInt(6, recipe.getAdmin_id());
+            insert.setInt(6, recipe.getAdminId());
             int result = insert.executeUpdate();
 
             if (result != 1) {
@@ -50,7 +50,7 @@ public class RecipeDao {
     }
 
 
-    public void delete (Integer recipeID) {
+    public static void delete (Integer recipeID) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement delete = connection.prepareStatement(DELETE_BOOK_QUERY)) {
             delete.setInt(1, recipeID);
@@ -65,7 +65,7 @@ public class RecipeDao {
         }
     }
 
-    public List<Recipe> findAll() {
+    public static List<Recipe> findAll() {
         List<Recipe> recipeList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement findAll = connection.prepareStatement(FIND_ALL_RECIPES_QUERY);
@@ -80,8 +80,7 @@ public class RecipeDao {
                 recipeToAdd.setUpdated(resultSet.getString("updated"));
                 recipeToAdd.setPreparation_time(resultSet.getInt("preparation_time"));
                 recipeToAdd.setPreparation(resultSet.getString("preparation"));
-                recipeToAdd.setAdmin_id(resultSet.getInt("admin_id"));
-
+                recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
                 recipeList.add(recipeToAdd);
             }
         }catch (SQLException exception) {
@@ -90,7 +89,7 @@ public class RecipeDao {
         return recipeList;
     }
 
-    public Recipe read (Integer recipeId) {
+    public static Recipe read (Integer recipeId) {
         Recipe recipe = new Recipe();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement read = connection.prepareStatement(READ_RECIPE_QUERY)
@@ -106,7 +105,7 @@ public class RecipeDao {
                     recipe.setUpdated(resultSet.getString("updated"));
                     recipe.setPreparation_time(resultSet.getInt("preparation_time"));
                     recipe.setPreparation(resultSet.getString("preparation"));
-                    recipe.setAdmin_id(resultSet.getInt("admin_id"));
+                    recipe.setAdminId(resultSet.getInt("admin_id"));
                 }
             }
         }catch (Exception exception) {
@@ -115,7 +114,7 @@ public class RecipeDao {
         return recipe;
     }
 
-    public void update (Recipe recipe) {
+    public static void update (Recipe recipe) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement updateStatment = connection.prepareStatement(UPDATE_RECIPE_QUERY)) {
             updateStatment.setString(1, recipe.getName());
