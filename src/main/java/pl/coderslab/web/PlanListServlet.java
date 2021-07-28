@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 
-@WebServlet("/planList")
+@WebServlet("/app/plan/list")
 public class PlanListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

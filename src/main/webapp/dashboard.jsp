@@ -79,59 +79,32 @@
             </div>
             <div class="m-4 p-4 border-dashed">
                 <h2 class="dashboard-content-title">
-                    <span>Ostatnio dodany plan:</span> ${lastPlan.name}
+                    <span>Ostatnio dodany plan:</span> ${lastPlan.description}
                 </h2>
                 <table class="table">
-                    <thead>
-                    <tr class="d-flex">
-                        <th class="col-2">Poniedziałek</th>
-                        <th class="col-8"></th>
-                        <th class="col-2"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="d-flex">
-                        <td class="col-2">śniadanie</td>
-                        <td class="col-8">płatki owsiane z jagodami i komosą ryżową</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">śniadanie</td>
-                        <td class="col-8">kanapka z pastą rybną</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">obiad</td>
-                        <td class="col-8">zupa pomidorowa</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table">
-                    <thead>
-                    <tr class="d-flex">
-                        <th class="col-2">Wtorek</th>
-                        <th class="col-8"></th>
-                        <th class="col-2"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="d-flex">
-                        <td class="col-2">śniadanie</td>
-                        <td class="col-8">płatki owsiane z jagodami i komosą ryżową</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">drugie śniadanie</td>
-                        <td class="col-8">pączki</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                    </tr>
-                    <tr class="d-flex">
-                        <td class="col-2">obiad</td>
-                        <td class="col-8">schabowy w panierce</td>
-                        <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                    </tr>
-                    </tbody>
+                    <%--                    kod po dniah--%>
+<%--                    <c:forEach var="day" items="LastPlan">--%>
+<%--                        <thead>--%>
+<%--                        <tr class="d-flex">--%>
+<%--                            <th class="col-2">${day}</th>--%>
+<%--                            <th class="col-8"></th>--%>
+<%--                            <th class="col-2"></th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <c:forEach var="recipe_plan" items="LastPlan.day_name">--%>
+<%--                            <tbody>--%>
+<%--                            <tr class="d-flex">--%>
+<%--                                <td class="col-2">LastPlan.meal_name</td>--%>
+<%--                                <td class="col-8">LastPlan.display_order</td>--%>
+<%--                                <td class="col-2">--%>
+<%--                                    <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
+
+<%--                            </tbody>--%>
+<%--                        </c:forEach>--%>
+<%--                    </c:forEach>--%>
+                    <%--                    kod po dniah--%>
                 </table>
             </div>
         </div>
