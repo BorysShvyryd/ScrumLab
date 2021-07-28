@@ -4,8 +4,6 @@
 
 <%@include file="headerLogined.jsp"%>
 
-<%@include file="headerLogined.jsp"%>
-
     <div class="m-4 p-3 width-medium">
       <div class="dashboard-content border-dashed p-3 m-4 view-height">
         <div class="row border-bottom border-3 p-1 m-1">
