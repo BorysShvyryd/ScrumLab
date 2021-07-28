@@ -154,21 +154,19 @@ public class PlanDao {
         return 0;
     }
 
-    public PlanList lastPlan(int adminId) throws SQLException {
-        PlanList planList = new PlanList();
+    public static List<PlanList> lastPlan(int adminId) throws SQLException {
+        List<PlanList> planList= new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY)
         ) {
             statement.setInt(1, adminId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    planList.setDayName(resultSet.getString("day_name"));
-                    planList.setMealName(resultSet.getString("meal_name"));
-                    planList.setRecipeName(resultSet.getString("recipe_name"));
-                    planList.setRecipeDescription(resultSet.getString("recipe_description"));
-                    System.out.println(planList.getDayName());
-                    System.out.println(planList.getMealName());
-                }
+                PlanList planToAdd = new PlanList();
+                planToAdd.setDayName(resultSet.getString("day_name"));
+                planToAdd.setMealName(resultSet.getString("meal_name"));
+                planToAdd.setRecipeName(resultSet.getString("recipe_name"));
+                planToAdd.setRecipeDescription(resultSet.getString("recipe_description"));
+                planList.add(planToAdd);
             }
             catch (SQLException e){
                 e.printStackTrace();
