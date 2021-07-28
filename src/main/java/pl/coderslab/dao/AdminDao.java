@@ -1,17 +1,17 @@
 package pl.coderslab.dao;
 
 import org.mindrot.jbcrypt.BCrypt;
+import pl.coderslab.exception.NotFoundException;
+import pl.coderslab.model.Admin;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import pl.coderslab.exception.NotFoundException;
-import pl.coderslab.model.Admin;
+import javax.servlet.http.HttpSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpSession;
 
 public class AdminDao {
 
@@ -21,7 +21,7 @@ public class AdminDao {
     private static final String READ_ADMIN_QUERY = "SELECT * FROM admins WHERE id = ?;";
     private static final String UPDATE_ADMIN_QUERY = "UPDATE admins SET first_name = ?, last_name = ?, email = ?, password = ?, superadmin = ?, enable = ? WHERE id = ?;";
 
-    public static Admin create(Admin admin) {
+    public Admin create(Admin admin) {
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement statement =
                      conn.prepareStatement(CREATE_ADMIN_QUERY, Statement.RETURN_GENERATED_KEYS)) {

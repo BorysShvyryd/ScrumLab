@@ -3,7 +3,6 @@ package pl.coderslab.web;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -19,6 +18,7 @@ public class PlanListServlet extends HttpServlet {
         plans.sort(Comparator.comparing(Plan::getCreated).reversed());
         request.setAttribute("plan", plans);
         getServletContext().getRequestDispatcher("/planlist.jsp").forward(request, response);
+
     }
 
     @Override
