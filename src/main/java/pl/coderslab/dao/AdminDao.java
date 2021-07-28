@@ -15,7 +15,7 @@ import java.util.List;
 
 public class AdminDao {
 
-    private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins(id, first_name, last_name, email, password, superadmin, enable) VALUES (0, ?, ?, ?, ?, 0, 0);";
+    private static final String CREATE_ADMIN_QUERY = "INSERT INTO admins(first_name, last_name, email, password, superadmin) VALUES (?, ?, ?, ?, ?);";
     private static final String DELETE_ADMIN_QUERY = "DELETE FROM admins WHERE id = ?;";
     private static final String FIND_ALL_ADMINS_QUERY = "SELECT * FROM admins;";
     private static final String READ_ADMIN_QUERY = "SELECT * FROM admins WHERE id = ?;";
@@ -29,8 +29,8 @@ public class AdminDao {
             statement.setString(1, admin.getFirstName());
             statement.setString(2, admin.getLastName());
             statement.setString(3, admin.getEmail());
-            statement.setString(4, admin.getPassword());
-//            statement.setInt(5, admin.getSuperadmin());
+            statement.setString(4, hashPassword(admin.getPassword()));
+            statement.setInt(5, admin.getSuperadmin());
 //            statement.setInt(6, admin.getEnable());
             int result = statement.executeUpdate();
 
@@ -49,6 +49,10 @@ public class AdminDao {
             exception.printStackTrace();
         }
         return null;
+    }
+
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     public static void delete(int id) {
