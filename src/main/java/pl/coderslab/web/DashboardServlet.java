@@ -11,12 +11,11 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet("/dashboard")
+@WebServlet("/app/dashboard")
 public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Admin loginedAdmin = AdminDao.getLoginedAdmin(session);
+        Admin loginedAdmin = AdminDao.getLoginedAdmin(request.getSession());
         request.setAttribute("loginedAdmin", loginedAdmin);
         request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(loginedAdmin.getId()));
         request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
@@ -27,8 +26,8 @@ public class DashboardServlet extends HttpServlet {
 //                {"wtorek", "Śniadanie", "Przepis 3", "Opis przepisu 3"},
 //                {"wtorek", "Kolacja", "Przepis 1", "Opis przepisu 1"}};
 
-        Plan plan = new Plan(1,"Name", "description", "new Date()", 1);
-        request.setAttribute("lastPlan", plan);
+//        Plan plan = new Plan(1,"Name", "description", "new Date()", 1);
+//        request.setAttribute("lastPlan", plan);
 //        request.setAttribute("descriptionPlan", plan.getAdminId());
 
         //request.setAttribute("lastPlan", PlanDao.LastPlan(loginedAdmin.getId()));
