@@ -1,5 +1,7 @@
 package pl.coderslab.web;
 
+import pl.coderslab.dao.PlanDao;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -12,24 +14,14 @@ import java.io.PrintWriter;
 public class PlanDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String someMessage = "Czy na pewno chcesz usunąć przepis z planu?";
-
-        response.setContentType("text/html");
-        response.getWriter().print(
-                "<%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" %>");
-//        response.getWriter().print(
-//                "<%@ taglib uri=\"http://java.sun.com/jsp/jstl/core\" prefix=\"c\"%>\n");
-        response.getWriter().print(
-                "<%@include file=\"headerLogined.jsp\"%>");
-        response.getWriter().print(
-                "<script type=\"text/javascript\">confirm(" + someMessage + ");</script>");
-        response.getWriter().print(
-                "<%@include file=\"footerLogined.jsp\"%>");
+        request.setAttribute("id", request.getParameter("plan_id"));
+        request.getRequestDispatcher("/plan-delete.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        PlanDao.delete(Integer.parseInt(request.getParameter("plan_id")));
+        request.getParameter("plan_id");
+        response.sendRedirect("/app/plan/list");
     }
 }
