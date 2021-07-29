@@ -30,7 +30,7 @@ public class Register extends HttpServlet {
         admin.setPassword(passwords[0]);
         adminDao.create(admin);
 
-        response.sendRedirect("/login.jsp");
+        response.sendRedirect("/login");
 
 /*        response.getWriter().append(name).append("\n");
         response.getWriter().append(surname).append("\n");

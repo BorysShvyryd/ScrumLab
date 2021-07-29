@@ -1,12 +1,12 @@
 package pl.coderslab.dao;
 
-import pl.coderslab.model.DayName;
 import pl.coderslab.model.PlanList;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
@@ -16,13 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanDao {
-
     private static final String LAST_ADDED_PLAN_QUERY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
             "FROM `recipe_plan`\n" +
             "         JOIN day_name on day_name.id=day_name_id\n" +
             "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
             "        recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
+    private static final String ALL_RECIPE_BY_PLAN_FROM_ADMIN = "SELECT day_name.name as day_name, meal_name, recipe.name as recipe_name, recipe.description as recipe_description " +
+            "FROM `recipe_plan`" +
+            "         JOIN day_name on day_name.id=day_name_id" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE plan_id = ? " +
+            "ORDER by day_name.display_order, recipe_plan.display_order";
     private static final String NUMBER_USER_PLAN_QUERY = "SELECT COUNT(id) AS count_id FROM plan WHERE admin_id = ?";
     private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?, CURRENT_TIMESTAMP, ?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
@@ -31,7 +35,7 @@ public class PlanDao {
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = CURRENT_TIMESTAMP, admin_id = ? WHERE id = ?;";
     private static final String FIND_NEW_PLAN = "SELECT MAX(id) from plan WHERE admin_id = ?";
 
-    public Plan read(Integer planId) {
+    public static Plan read(Integer planId) {
         Plan plan = new Plan();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(READ_PLAN_QUERY)
@@ -82,8 +86,7 @@ public class PlanDao {
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             insertStm.setString(1, plan.getName());
             insertStm.setString(2, plan.getDescription());
-            insertStm.setString(3, plan.getCreated());
-            insertStm.setInt(4, plan.getAdminId());
+            insertStm.setInt(3, plan.getAdminId());
             int result = insertStm.executeUpdate();
 
             if (result != 1) {
@@ -105,7 +108,7 @@ public class PlanDao {
         return null;
     }
 
-    public void delete(Integer planId) {
+    public static void delete(Integer planId) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_PLAN_QUERY)) {
             statement.setInt(1, planId);
@@ -153,6 +156,25 @@ public class PlanDao {
         }
         return 0;
     }
+    public static List<List <String>> getDetailsFromPlan(int plan_id) {
+        List<List <String>> result = new ArrayList<List<String>>();
+        try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(ALL_RECIPE_BY_PLAN_FROM_ADMIN)) {
+            ps.setInt(1, plan_id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                List<String> rowResult = new ArrayList<String>();
+                rowResult.add(rs.getString(1));
+                rowResult.add(rs.getString(2));
+                rowResult.add(rs.getString(3));
+                rowResult.add(rs.getString(4));
+                result.add(rowResult);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
+    }
+
 
     public static List<PlanList> lastPlan(int adminId) throws SQLException {
         List<PlanList> planList= new ArrayList<>();
