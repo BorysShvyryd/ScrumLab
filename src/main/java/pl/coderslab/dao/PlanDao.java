@@ -1,10 +1,13 @@
 package pl.coderslab.dao;
 
+import pl.coderslab.model.DayName;
+import pl.coderslab.model.PlanList;
 import pl.coderslab.utils.DbUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
 
@@ -14,12 +17,19 @@ import java.util.List;
 
 public class PlanDao {
 
+    private static final String LAST_ADDED_PLAN_QUERY = "SELECT day_name.name as day_name, meal_name,  recipe.name as recipe_name, recipe.description as recipe_description\n" +
+            "FROM `recipe_plan`\n" +
+            "         JOIN day_name on day_name.id=day_name_id\n" +
+            "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
+            "        recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
+            "ORDER by day_name.display_order, recipe_plan.display_order;";
     private static final String NUMBER_USER_PLAN_QUERY = "SELECT COUNT(id) AS count_id FROM plan WHERE admin_id = ?";
     private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?, CURRENT_TIMESTAMP, ?);";
     private static final String DELETE_PLAN_QUERY = "DELETE FROM plan where id = ?;";
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ?, created = CURRENT_TIMESTAMP, admin_id = ? WHERE id = ?;";
+    private static final String FIND_NEW_PLAN = "SELECT MAX(id) from plan WHERE admin_id = ?";
 
     public Plan read(Integer planId) {
         Plan plan = new Plan();
@@ -127,6 +137,7 @@ public class PlanDao {
 
     /**
      * Metodę pobierającą liczbę planów dodanych przez aktualnie zalogowanego użytkownika.
+     *
      * @param adminId - id aktualnie zalogowanego użytkownika
      * @return - liczbę planów
      */
@@ -143,4 +154,24 @@ public class PlanDao {
         return 0;
     }
 
+    public static List<PlanList> lastPlan(int adminId) throws SQLException {
+        List<PlanList> planList= new ArrayList<>();
+        try (Connection connection = DbUtil.getConnection();
+             PreparedStatement statement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY)
+        ) {
+            statement.setInt(1, adminId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                PlanList planToAdd = new PlanList();
+                planToAdd.setDayName(resultSet.getString("day_name"));
+                planToAdd.setMealName(resultSet.getString("meal_name"));
+                planToAdd.setRecipeName(resultSet.getString("recipe_name"));
+                planToAdd.setRecipeDescription(resultSet.getString("recipe_description"));
+                planList.add(planToAdd);
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+            return planList;
+        }
+    }
 }
