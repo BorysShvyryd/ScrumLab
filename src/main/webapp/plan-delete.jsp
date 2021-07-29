@@ -8,13 +8,13 @@
         <form action="/app/plan/delete" method="post">
             <div class="row border-bottom border-3 p-1 m-1">
                 <div class="col noPadding">
-                    <h3 class="color-header text-uppercase">Czy na pewno chcesz usunąć przepis z planu?</h3>
+                    <h3 class="color-header text-uppercase">Czy na pewno chcesz usunąć plan?</h3>
                 </div>
 
             </div>
             <div class="col d-flex justify-content-end mb-2 noPadding">
                 <button type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" name="plan_id" value="${id}">OK</button>
-                <a href="/app/plan/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Cancel</a>
+                <a href="/app/plan/list" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Anuluj</a>
             </div>
         </form>
     </div>
