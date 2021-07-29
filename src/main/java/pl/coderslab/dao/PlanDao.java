@@ -66,7 +66,7 @@ public class PlanDao {
 
     }
 
-    public Plan create(Plan plan) {
+    public static Plan create(Plan plan) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insertStm = connection.prepareStatement(CREATE_PLAN_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
