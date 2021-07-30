@@ -34,6 +34,6 @@ public class AddRecipePlanServlet extends HttpServlet {
                 Integer.parseInt(request.getParameter("select_day")),
                 Integer.parseInt(request.getParameter("select_plan"))));
 
-        doGet(request, response);
+        response.sendRedirect("/app/plan/details?plan_id=" + request.getParameter("select_plan"));
     }
 }
