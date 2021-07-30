@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <%--            <c:out value="${day}" default=""/>--%>
+            <c:set var="day" value=""/>
             <c:forEach var="details" items="${listDetailsPlan}">
                 <table class="table">
                     <c:if test="${not day.equals(details[0])}">
@@ -48,15 +48,12 @@
                             <th class="col-2"></th>
                         </tr>
                         </thead>
-                        <%--                        <c:out value="${day}" default="${details[0]}"/>--%>
+                        <c:set var="day" value="${details[0]}"/>
                     </c:if>
-                        <%--                    <c:forEach var="detail" items="details">--%>
-
                         <tbody class="text-color-lighter">
                         <tr class="d-flex">
-                        <c:forEach begin="1" end="3" var="det">
-                            <td class="col-2">${det}</td>
-                            <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
+                            <td class="col-2">${details[1]}</td>
+                            <td class="col-7">${details[2]}</td>
                             <td class="col-1 center">
                                 <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                             </td>
@@ -64,10 +61,8 @@
                                 <a href="app-details-schedules.html"
                                    class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                             </td>
-                        </c:forEach>
                         </tr>
                         </tbody>
-                        <%--                    </c:forEach>--%>
                 </table>
             </c:forEach>
         </div>
