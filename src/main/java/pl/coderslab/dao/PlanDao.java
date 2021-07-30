@@ -20,10 +20,11 @@ public class PlanDao {
             "         JOIN recipe on recipe.id=recipe_id WHERE\n" +
             "        recipe_plan.plan_id =  (SELECT MAX(id) from plan WHERE admin_id = ?)\n" +
             "ORDER by day_name.display_order, recipe_plan.display_order;";
-    private static final String ALL_RECIPE_BY_PLAN_FROM_ADMIN = "SELECT day_name.name as day_name, meal_name, recipe.name as recipe_name, recipe.description as recipe_description " +
-            "FROM `recipe_plan`" +
-            "         JOIN day_name on day_name.id=day_name_id" +
-            "         JOIN recipe on recipe.id=recipe_id WHERE plan_id = ? " +
+    private static final String ALL_RECIPE_BY_PLAN_FROM_ADMIN = "SELECT day_name.name as day_name, meal_name, recipe.name as recipe_name, recipe.id as recipe_id, recipe_plan.id as id " +
+            "FROM `recipe_plan` " +
+            "JOIN day_name on day_name.id=day_name_id " +
+            "JOIN recipe on recipe.id=recipe_id " +
+            "WHERE plan_id = ? " +
             "ORDER by day_name.display_order, recipe_plan.display_order";
     private static final String NUMBER_USER_PLAN_QUERY = "SELECT COUNT(id) AS count_id FROM plan WHERE admin_id = ?";
     private static final String CREATE_PLAN_QUERY = "INSERT INTO plan (name, description, created, admin_id) VALUES (?,?, CURRENT_TIMESTAMP, ?);";
@@ -156,8 +157,8 @@ public class PlanDao {
         return 0;
     }
 
-    public static List<List <String>> getDetailsFromPlan(int plan_id) {
-        List<List <String>> result = new ArrayList<List<String>>();
+    public static List<List<String>> getDetailsFromPlan(int plan_id) {
+        List<List<String>> result = new ArrayList<List<String>>();
         try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(ALL_RECIPE_BY_PLAN_FROM_ADMIN)) {
             ps.setInt(1, plan_id);
             ResultSet rs = ps.executeQuery();
@@ -167,6 +168,7 @@ public class PlanDao {
                 rowResult.add(rs.getString(2));
                 rowResult.add(rs.getString(3));
                 rowResult.add(rs.getString(4));
+                rowResult.add(rs.getString(5));
                 result.add(rowResult);
             }
         } catch (SQLException throwables) {
@@ -176,7 +178,7 @@ public class PlanDao {
     }
 
     public static List<PlanList> lastPlan(int adminId) throws SQLException {
-        List<PlanList> planList= new ArrayList<>();
+        List<PlanList> planList = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(LAST_ADDED_PLAN_QUERY)
         ) {
@@ -188,8 +190,7 @@ public class PlanDao {
                 planToAdd.setRecipeName(resultSet.getString("recipe_name"));
                 planToAdd.setRecipeDescription(resultSet.getString("recipe_description"));
                 planList.add(planToAdd);
-            }
-            catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             return planList;

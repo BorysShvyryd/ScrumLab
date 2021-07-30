@@ -1,10 +1,7 @@
 package pl.coderslab.web;
 
 import pl.coderslab.dao.*;
-import pl.coderslab.model.Admin;
-import pl.coderslab.model.DayName;
-import pl.coderslab.model.Plan;
-import pl.coderslab.model.Recipe;
+import pl.coderslab.model.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -30,12 +27,12 @@ public class AddRecipePlanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RecipePlanDao.saveRecipePlanToDB(
+        RecipePlanDao.saveRecipePlanToDB(new RecipePlan(
                 Integer.parseInt(request.getParameter("select_recipe")),
                 request.getParameter("meal_name"),
                 Integer.parseInt(request.getParameter("meal_number")),
                 Integer.parseInt(request.getParameter("select_day")),
-                Integer.parseInt(request.getParameter("select_plan")));
+                Integer.parseInt(request.getParameter("select_plan"))));
 
         doGet(request, response);
     }
