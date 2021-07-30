@@ -55,7 +55,7 @@
                             <td class="col-2">${details[1]}</td>
                             <td class="col-7">${details[2]}</td>
                             <td class="col-1 center">
-                                <a href="/app/recipe/plan/delete?plan_id=${plan.getId()}&id=${details[4]}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                <a href="/app/recipe/plan/delete?plan_id=${plan.getId()}&id=${details[4]}&name=${details[2]}" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
                             </td>
                             <td class="col-2 center">
                                 <a href="/app/recipe/details?id=${details[3]}"

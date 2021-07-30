@@ -5,11 +5,14 @@ import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
+import pl.coderslab.model.PlanList;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/app/dashboard")
 public class DashboardServlet extends HttpServlet {
@@ -19,18 +22,13 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("loginedAdmin", loginedAdmin);
         request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(loginedAdmin.getId()));
         request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
+//        try {
+            request.setAttribute("lastPlan", "PlanDao.lastPlan(loginedAdmin.getId())");
+//            System.out.println(PlanDao.lastPlan(loginedAdmin.getId()));
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
 
-        //#5 PlanDao - metoda pobierająca ostatnio dodany plan
-//        String[][] planOrd = {{"poniedziałek","Śniadanie","Przepis 2","Opis przepisu 2"},
-//                {"poniedziałek","Kolacja","Przepis 1","Opis przepisu 1"},
-//                {"wtorek", "Śniadanie", "Przepis 3", "Opis przepisu 3"},
-//                {"wtorek", "Kolacja", "Przepis 1", "Opis przepisu 1"}};
-
-//        Plan plan = new Plan(1,"Name", "description", "new Date()", 1);
-//        request.setAttribute("lastPlan", plan);
-//        request.setAttribute("descriptionPlan", plan.getAdminId());
-
-        //request.setAttribute("lastPlan", PlanDao.LastPlan(loginedAdmin.getId()));
 
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }
