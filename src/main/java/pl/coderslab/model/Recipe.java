@@ -12,13 +12,10 @@ public class Recipe {
     private String preparation;
     private int adminId;
 
-    public Recipe(String name, String ingredients, String description, String created,
-                  String updated, int preparation_time, String preparation, int adminId) {
+    public Recipe(String name, String ingredients, String description, int preparation_time, String preparation, int adminId) {
         this.name = name;
         this.ingredients = ingredients;
         this.description = description;
-        this.created = created;
-        this.updated = updated;
         this.preparation_time = preparation_time;
         this.preparation = preparation;
         this.adminId = adminId;
