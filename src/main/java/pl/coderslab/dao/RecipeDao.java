@@ -19,7 +19,7 @@ public class RecipeDao {
     private static final String UPDATE_RECIPE_QUERY = "UPDATE recipe SET name = ?, ingredients = ?, description = ?, " +
             "updated = CURRENT_TIMESTAMP, preparation_time = ?, preparation = ? WHERE id = ?;";
 
-    public static Recipe create (Recipe recipe) throws SQLException {
+    public static Recipe create (Recipe recipe) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement insert =connection.prepareStatement(CREATE_RECIPE_QUERY,
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
