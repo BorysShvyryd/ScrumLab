@@ -6,35 +6,106 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/headerLogined.jsp" %>
 
 <section class="dashboard-section">
-    <div class="container pt-4 pb-4">
-        <div class="border-dashed view-height">
-            <div class="container w-25">
+    <div class="row dashboard-nowrap">
+        <ul class="nav flex-column long-bg">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard.html">
+                    <span>Pulpit</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/app-recipes.html">
+                    <span>Przepisy</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/app-schedules.html">
+                    <span>Plany</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/app-edit-user-data.html">
+                    <span>Edytuj dane</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="/app-edit-password.html">
+                    <span>Zmień hasło</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/super-admin-users.html">
+                    <span>Użytkownicy</span>
+                    <i class="fas fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+
+        <div class="m-4 p-3 width-medium text-color-darker">
+            <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <!-- fix action, method -->
                 <!-- add name attribute for all inputs -->
-                <form class="padding-small text-center" method="post" action="/app/recipe/add">
-                    <h1 class="text-color-darker">Dodaj nowy przepis</h1>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="nazwa przepisu">
+                <form>
+                    <div class="mt-4 ml-4 mr-4">
+                        <div class="row border-bottom border-3">
+                            <div class="col"><h3 class="color-header text-uppercase">Nowy przepis</h3></div>
+                            <div class="col d-flex justify-content-end mb-2">
+                                <button type="submit" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Zapisz</button>
+                            </div>
+                        </div>
+
+                        <table class="table borderless">
+                            <tbody>
+                            <tr class="d-flex">
+                                <th scope="row" class="col-2">Nazwa Przepisu</th>
+                                <td class="col-7">
+
+                                    <input name="name" class="w-100 p-1" value="">
+                                </td>
+                            </tr>
+                            <tr class="d-flex">
+                                <th scope="row" class="col-2">Opis przepisu</th>
+                                <td class="col-7"><textarea class="w-100 p-1" rows="5"></textarea></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <th scope="row" class="col-2">Przygotowanie (minuty)</th>
+                                <td class="col-3">
+                                    <input class="p-1" type="number" value="">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row d-flex">
+                            <div class="col-5 border-bottom border-3"><h3 class="text-uppercase">Sposób
+                                przygotowania</h3></div>
+                            <div class="col-2"></div>
+                            <div class="col-5 border-bottom border-3"><h3 class="text-uppercase">Składniki</h3></div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col-5 p-4">
+                                <textarea class="w-100 p-1" rows="10"></textarea>
+                            </div>
+                            <div class="col-2"></div>
+
+                            <div class="col-5 p-4">
+                                <textarea class="w-100 p-1" rows="10"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="description" name="description" placeholder="opis przepisu">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" id="timePreparation" name="timePreparation" placeholder="czas przygotowania w minutach">
-                    </div>
-                    <div class="form-group">
-                        <input type="textarea" class="form-control" id="typeOf" name="typeOf" placeholder="sposób przygotowania">
-                    </div>
-                    <div class="form-group">
-                        <input type="textarea" class="form-control" id="ingredients" name="ingredients" placeholder="składniki">
-                    </div>
-                    <button class="btn btn-color rounded-0" type="submit">Wyślij</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
-<%@ include file="/footer.jsp" %>
+
+<%@include file="/footerLogined.jsp" %>

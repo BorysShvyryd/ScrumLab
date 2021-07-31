@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             AdminDao.storeLoginedUser(session, admin);
             session.setMaxInactiveInterval(6*60*60);
-            response.sendRedirect("/dashboard");
+            response.sendRedirect("/app/dashboard");
         } else {
             errorMessage = "Invalid Email or Password";
 
