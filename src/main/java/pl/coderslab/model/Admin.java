@@ -1,9 +1,7 @@
 package pl.coderslab.model;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 public class Admin {
-    private static int id;
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -24,7 +22,7 @@ public class Admin {
 
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
@@ -77,7 +75,7 @@ public class Admin {
     }
 
     public void setEnable(int enable) {
-        this.enable = 1;
+        this.enable = enable;
     }
 
     @Override

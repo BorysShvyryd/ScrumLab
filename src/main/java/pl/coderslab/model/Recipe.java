@@ -21,6 +21,16 @@ public class Recipe {
         this.adminId = adminId;
     }
 
+    public Recipe(String name, String ingredients, String description, int preparation_time, String preparation, int adminId, int id) {
+        this.id = id;
+        this.name = name;
+        this.ingredients = ingredients;
+        this.description = description;
+        this.preparation_time = preparation_time;
+        this.preparation = preparation;
+        this.adminId = adminId;
+    }
+
     public Recipe() {
 
     }

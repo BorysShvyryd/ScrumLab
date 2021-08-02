@@ -5,34 +5,31 @@ import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
-import pl.coderslab.model.PlanList;
+import pl.coderslab.model.Recipe;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.Console;
 import java.io.IOException;
 
-@WebServlet("/app/dashboard")
-public class DashboardServlet extends HttpServlet {
+@WebServlet("/app/edit/user/data")
+public class EditUserDataServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Admin loginedAdmin = AdminDao.getLoginedAdmin(request.getSession());
         request.setAttribute("loginedAdmin", loginedAdmin);
-        request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(loginedAdmin.getId()));
-        request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
-//        try {
-            request.setAttribute("lastPlan", "PlanDao.lastPlan(loginedAdmin.getId())");
-//            System.out.println(PlanDao.lastPlan(loginedAdmin.getId()));
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
 
-
-        getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/edit_user_data.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        Admin loginedAdmin = AdminDao.getLoginedAdmin(request.getSession());
+        loginedAdmin.setFirstName(request.getParameter("firstName"));
+        loginedAdmin.setLastName(request.getParameter("lastName"));
+        loginedAdmin.setEmail(request.getParameter("email"));
+        AdminDao.update(loginedAdmin);
+        response.sendRedirect("/app/dashboard");
     }
 }

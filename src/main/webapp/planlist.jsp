@@ -31,7 +31,7 @@
                                 <th scope="col" class="col-2">${plans.name}</th>
                                 <th scope="col" class="col-7">${plans.description}</th>
                                 <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                                    <a href="" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                                    <a href="/app/plan/delete?plan_id=${plans.id}" class="btn btn-danger rounded-0 text-light m-1" onclick="deletePlan(${plans.id})">Usuń</a>
                                     <a href="/app/plan/details?plan_id=${plans.id}" class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                                     <a href="/app/plan/edit?plan_id=${plans.id}" class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
                                 </td>
@@ -42,5 +42,3 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>

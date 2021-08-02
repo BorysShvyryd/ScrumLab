@@ -140,6 +140,26 @@ public class AdminDao {
         }
     }
 
+    private static final String BLOCK_USER_QUERY = "UPDATE admins SET enable = ? WHERE id = ?";
+
+    /**
+     * Metoda blokowania użytkownika
+     *
+     * @param idUser - id użytkownika
+     * @param blok - parametr (0 - blok user, 1 - unblok user)
+     */
+    public static void blokUnblokUser(int idUser, int blok) {
+        try (Connection conn = DbUtil.getConnection();
+             PreparedStatement statement = conn.prepareStatement(BLOCK_USER_QUERY)) {
+
+            statement.setInt(1, blok);
+            statement.setInt(2, idUser);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static final String SEARCH_ADMIN_FOR_EMAIL_QUERY = "SELECT id, email, password FROM admins WHERE email = ?";
 
     /**
@@ -174,7 +194,6 @@ public class AdminDao {
      * @param loginedAdmin - obiekt Admin zalogowanego użytkownika
      */
     public static void storeLoginedUser(HttpSession session, Admin loginedAdmin) {
-        // JSP -> ${loginedAdmin`}
         session.setAttribute("loginedAdmin", loginedAdmin);
     }
 
