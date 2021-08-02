@@ -16,9 +16,9 @@ public class AddRecipePlanServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Admin loginedAdmin = AdminDao.getLoginedAdmin(session);
         request.setAttribute("loginedAdmin", loginedAdmin);
-        List<Plan> planList = PlanDao.findAll();
+        List<Plan> planList = PlanDao.findAllPlanByAdminId(loginedAdmin.getId());
         request.setAttribute("planList", planList);
-        List<Recipe> recipeList = RecipeDao.findAll();
+        List<Recipe> recipeList = RecipeDao.findAllRecipeByAdminId(loginedAdmin.getId());
         request.setAttribute("recipeList", recipeList);
         List<DayName> dayList = DayNameDao.findAll();
         request.setAttribute("dayList", dayList);
