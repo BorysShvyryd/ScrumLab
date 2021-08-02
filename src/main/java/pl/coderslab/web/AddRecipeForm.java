@@ -29,9 +29,9 @@ public class AddRecipeForm extends HttpServlet {
 
         RecipeDao.create(new Recipe(
                 request.getParameter("name"),
-                request.getParameter("ingredients"),
+                request.getParameter("ingredients").trim().replaceAll("\\r",", ").replaceAll("\\n", ""),
                 request.getParameter("description"),
-                parseInt(request.getParameter("preparationTime")),
+                Integer.parseInt(request.getParameter("preparationTime")),
                 request.getParameter("preparation"),
                 AdminDao.getLoginedAdmin(request.getSession()).getId()));
 

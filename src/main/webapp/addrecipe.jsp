@@ -13,7 +13,7 @@
             <div class="dashboard-content border-dashed p-3 m-4 view-height">
                 <!-- fix action, method -->
                 <!-- add name attribute for all inputs -->
-                <form>
+                <form action="/app/recipe/add" method="post">
                     <div class="mt-4 ml-4 mr-4">
                         <div class="row border-bottom border-3">
                             <div class="col"><h3 class="color-header text-uppercase">Nowy przepis</h3></div>
@@ -27,18 +27,17 @@
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Nazwa Przepisu</th>
                                 <td class="col-7">
-
                                     <input name="name" class="w-100 p-1" value="">
                                 </td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Opis przepisu</th>
-                                <td class="col-7"><textarea class="w-100 p-1" rows="5"></textarea></td>
+                                <td class="col-7"><textarea name="description" class="w-100 p-1" rows="5"></textarea></td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Przygotowanie (minuty)</th>
                                 <td class="col-3">
-                                    <input class="p-1" type="number" value="">
+                                    <input name="preparationTime" class="p-1" type="number" value="">
                                 </td>
                             </tr>
                             </tbody>
@@ -52,12 +51,12 @@
                         </div>
                         <div class="row d-flex">
                             <div class="col-5 p-4">
-                                <textarea class="w-100 p-1" rows="10"></textarea>
+                                <textarea name="preparation" class="w-100 p-1" rows="10"></textarea>
                             </div>
                             <div class="col-2"></div>
 
                             <div class="col-5 p-4">
-                                <textarea class="w-100 p-1" rows="10"></textarea>
+                                <textarea name="ingredients" class="w-100 p-1" rows="10"></textarea>
                             </div>
                         </div>
                     </div>

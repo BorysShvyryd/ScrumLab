@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/app/dashboard")
 public class DashboardServlet extends HttpServlet {
@@ -20,13 +21,13 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("loginedAdmin", loginedAdmin);
         request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(loginedAdmin.getId()));
         request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
-//        try {
-            request.setAttribute("lastPlan", "PlanDao.lastPlan(loginedAdmin.getId())");
-//            System.out.println(PlanDao.lastPlan(loginedAdmin.getId()));
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-
+        List<List<String>> lastPlan = PlanDao.lastPlan(loginedAdmin.getId());
+        request.setAttribute("lastPlan", lastPlan);
+        if (lastPlan.size()>0) {
+            request.setAttribute("lastPlanName", (PlanDao.read(Integer.parseInt(PlanDao.lastPlan(loginedAdmin.getId()).get(0).get(0))).getName()));
+        } else {
+            request.setAttribute("lastPlanName", "---");
+        }
 
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }

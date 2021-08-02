@@ -153,5 +153,30 @@ public class RecipeDao {
         return 0;
     }
 
+    private static final String FIND_ALL_RECIPES_BY_ADMINID_QUERY = "SELECT * FROM recipe WHERE admin_id = ?";
 
+
+    public static List<Recipe> findAllRecipeByAdminId(int adminId) {
+        List<Recipe> recipeList = new ArrayList<>();
+        try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(FIND_ALL_RECIPES_BY_ADMINID_QUERY)) {
+            ps.setInt(1, adminId);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                Recipe recipeToAdd = new Recipe();
+                recipeToAdd.setId(resultSet.getInt("id"));
+                recipeToAdd.setName(resultSet.getString("name"));
+                recipeToAdd.setIngredients(resultSet.getString("ingredients"));
+                recipeToAdd.setDescription(resultSet.getString("description"));
+                recipeToAdd.setCreated(resultSet.getString("created"));
+                recipeToAdd.setUpdated(resultSet.getString("updated"));
+                recipeToAdd.setPreparation_time(resultSet.getInt("preparation_time"));
+                recipeToAdd.setPreparation(resultSet.getString("preparation"));
+                recipeToAdd.setAdminId(resultSet.getInt("admin_id"));
+                recipeList.add(recipeToAdd);
+            }
+        }catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return recipeList;
+    }
 }

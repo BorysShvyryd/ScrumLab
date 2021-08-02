@@ -16,12 +16,12 @@ import static pl.coderslab.dao.PlanDao.lastPlan;
 public class LastPlan extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            List<PlanList> theLast = lastPlan(1);
-            System.out.println(theLast);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            List<PlanList> theLast = lastPlan(1);
+//            System.out.println(theLast);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }

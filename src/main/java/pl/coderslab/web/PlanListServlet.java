@@ -1,5 +1,6 @@
 package pl.coderslab.web;
 
+import pl.coderslab.dao.AdminDao;
 import pl.coderslab.dao.PlanDao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
@@ -14,7 +15,9 @@ import java.util.List;
 public class PlanListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Plan> plans = PlanDao.findAll();
+        Admin loginedAdmin = AdminDao.getLoginedAdmin(request.getSession());
+        request.setAttribute("loginedAdmin", loginedAdmin);
+        List<Plan> plans = PlanDao.findAllPlanByAdminId(loginedAdmin.getId());
         plans.sort(Comparator.comparing(Plan::getCreated).reversed());
         request.setAttribute("plan", plans);
         getServletContext().getRequestDispatcher("/planlist.jsp").forward(request, response);
