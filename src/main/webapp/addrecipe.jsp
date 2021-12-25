@@ -27,17 +27,17 @@
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Nazwa Przepisu</th>
                                 <td class="col-7">
-                                    <input name="name" class="w-100 p-1" value="">
+                                    <input name="name" class="w-100 p-1" value="${recipe.getName()}">
                                 </td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Opis przepisu</th>
-                                <td class="col-7"><textarea name="description" class="w-100 p-1" rows="5"></textarea></td>
+                                <td class="col-7"><textarea name="description" class="w-100 p-1" rows="5">${recipe.getDescription()}</textarea></td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="row" class="col-2">Przygotowanie (minuty)</th>
                                 <td class="col-3">
-                                    <input name="preparationTime" class="p-1" type="number" value="">
+                                    <input name="preparationTime" class="p-1" type="number" value="${recipe.getPreparation_time()}">
                                 </td>
                             </tr>
                             </tbody>
@@ -51,12 +51,12 @@
                         </div>
                         <div class="row d-flex">
                             <div class="col-5 p-4">
-                                <textarea name="preparation" class="w-100 p-1" rows="10"></textarea>
+                                <textarea name="preparation" class="w-100 p-1" rows="10">${recipe.getPreparation()}</textarea>
                             </div>
                             <div class="col-2"></div>
 
                             <div class="col-5 p-4">
-                                <textarea name="ingredients" class="w-100 p-1" rows="10"></textarea>
+                                <textarea name="ingredients" class="w-100 p-1" rows="10">${recipe.getIngredients()}</textarea>
                             </div>
                         </div>
                     </div>

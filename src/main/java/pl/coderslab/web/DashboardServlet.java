@@ -5,7 +5,6 @@ import pl.coderslab.dao.PlanDao;
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Plan;
-import pl.coderslab.model.PlanList;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,13 +20,10 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("loginedAdmin", loginedAdmin);
         request.setAttribute("numberRecipe", RecipeDao.getNumberRecipeByAdmin(loginedAdmin.getId()));
         request.setAttribute("numberPlan", PlanDao.getNumberPlanByAdmin(loginedAdmin.getId()));
-        List<List<String>> lastPlan = PlanDao.lastPlan(loginedAdmin.getId());
+        Plan lastPlan = PlanDao.lastPlan(loginedAdmin.getId());
         request.setAttribute("lastPlan", lastPlan);
-        if (lastPlan.size()>0) {
-            request.setAttribute("lastPlanName", (PlanDao.read(Integer.parseInt(PlanDao.lastPlan(loginedAdmin.getId()).get(0).get(0))).getName()));
-        } else {
-            request.setAttribute("lastPlanName", "---");
-        }
+        List<List<String>> lastPlanDetails = PlanDao.lastPlanDetails(loginedAdmin.getId());
+        request.setAttribute("lastPlanDetails", lastPlanDetails);
 
         getServletContext().getRequestDispatcher("/dashboard.jsp").forward(request, response);
     }

@@ -22,11 +22,20 @@ public class AddPlanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PlanDao.create(new Plan(0,
-                request.getParameter("planName"),
-                request.getParameter("planDescription"),
+        String planName = request.getParameter("planName");
+        String planDescription = request.getParameter("planDescription");
+        Plan plan = new Plan(0,
+                planName,
+                planDescription,
                 "",
-                AdminDao.getLoginedAdmin(request.getSession()).getId()));
-        response.sendRedirect("/app/plan/list");
+                AdminDao.getLoginedAdmin(request.getSession()).getId());
+        if ((!"".equals(planName)) && (!"".equals(planDescription))) {
+            PlanDao.create(plan);
+            response.sendRedirect("/app/plan/list");
+        } else {
+            request.setAttribute("planName",planName);
+            request.setAttribute("planDescription",planDescription);
+            request.getRequestDispatcher("/add_plan.jsp").forward(request, response);
+        }
     }
 }

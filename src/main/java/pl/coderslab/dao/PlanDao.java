@@ -4,7 +4,6 @@ import pl.coderslab.utils.DbUtil;
 
 import java.sql.*;
 
-import pl.coderslab.exception.NotFoundException;
 import pl.coderslab.model.Plan;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class PlanDao {
     private static final String FIND_ALL_PLANS_QUERY = "SELECT * FROM plan;";
     private static final String READ_PLAN_QUERY = "SELECT * from plan where id = ?;";
     private static final String UPDATE_PLAN_QUERY = "UPDATE	plan SET name = ? , description = ? WHERE id = ?";
-    private static final String FIND_NEW_PLAN = "SELECT MAX(id) from plan WHERE admin_id = ?";
+    private static final String FIND_LAST_PLAN = "SELECT id, name, description, created, admin_id from plan WHERE admin_id = ? ORDER BY id DESC LIMIT 1";
 
     public static Plan read(Integer planId) {
         Plan plan = new Plan();
@@ -112,10 +111,10 @@ public class PlanDao {
             statement.setInt(1, planId);
             statement.executeUpdate();
 
-            boolean deleted = statement.execute();
-            if (!deleted) {
-                throw new NotFoundException("Product not found");
-            }
+//            boolean deleted = statement.execute();
+//            if (!deleted) {
+//                throw new NotFoundException("Product not found");
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,11 +179,32 @@ public class PlanDao {
     }
 
     /**
+     * Мetoda, która zwraca obiekt ostatnio dodanego planu
+     * @param adminId - id zalogowanego użytkownika
+     * @return - zwraca obiekt planu
+     */
+    public static Plan lastPlan (int adminId) {
+        try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(FIND_LAST_PLAN)) {
+            ps.setInt(1, adminId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Plan(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("created"),
+                        rs.getInt("admin_id"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+    /**
      * Мetoda, która zwraca listę szczegółów ostatnio dodanego planu
      * @param adminId - id zalogowanego użytkownika
      * @return - zwraca listę szczegółów planu
      */
-    public static List<List<String>> lastPlan(int adminId) {
+    public static List<List<String>> lastPlanDetails(int adminId) {
         List<List<String>> result = new ArrayList<List<String>>();
         try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(LAST_ADDED_PLAN_QUERY)) {
             ps.setInt(1, adminId);

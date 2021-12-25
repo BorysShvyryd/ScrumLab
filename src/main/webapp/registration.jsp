@@ -18,13 +18,13 @@
                 <form class="padding-small text-center" method="post" action="/register">
                     <h1 class="text-color-darker">Rejestracja</h1>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="podaj imię">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="podaj imię" value="${name}">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="surname" name="surname" placeholder="podaj nazwisko">
+                        <input type="text" class="form-control" id="surname" name="surname" placeholder="podaj nazwisko" value="${surname}">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" id="email" name="email" placeholder="podaj email">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="podaj email" value="${email}">
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="password" name="password" placeholder="podaj hasło">

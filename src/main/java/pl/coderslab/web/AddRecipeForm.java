@@ -4,6 +4,7 @@ import pl.coderslab.dao.AdminDao;
 import pl.coderslab.dao.RecipeDao;
 import pl.coderslab.model.Admin;
 import pl.coderslab.model.Recipe;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,16 +27,29 @@ public class AddRecipeForm extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        RecipeDao.create(new Recipe(
-                request.getParameter("name"),
-                request.getParameter("ingredients").trim().replaceAll("\\r",", ").replaceAll("\\n", ""),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("preparationTime")),
-                request.getParameter("preparation"),
-                AdminDao.getLoginedAdmin(request.getSession()).getId()));
-
-        response.sendRedirect("/app/recipe/list");
+        String name = request.getParameter("name");
+        String ingredients = request.getParameter("ingredients");
+        String description = request.getParameter("description");
+        int preparationTime = 0;
+        if (!"".equals(request.getParameter("preparationTime"))) {
+            preparationTime = Integer.parseInt(request.getParameter("preparationTime"));
+        }
+        String preparation = request.getParameter("preparation");
+        Recipe recipe = new Recipe(
+                name,
+                ingredients,
+                description,
+                preparationTime,
+                preparation,
+                AdminDao.getLoginedAdmin(request.getSession()).getId());
+        if ((!"".equals(name)) && (!"".equals(ingredients)) &&
+                (!"".equals(description)) && (!"".equals(preparation)) && (preparationTime != 0)) {
+            recipe.setIngredients(recipe.getIngredients().trim().replaceAll("\\r", ", ").replaceAll("\\n", ""));
+            RecipeDao.create(recipe);
+            response.sendRedirect("/app/recipe/list");
+        } else {
+            request.setAttribute("recipe", recipe);
+            request.getRequestDispatcher("/addrecipe.jsp").forward(request, response);
+        }
     }
-
 }

@@ -56,10 +56,10 @@ public class RecipeDao {
             delete.setInt(1, recipeID);
             delete.executeUpdate();
 
-            boolean isDelete = delete.execute();
-            if (!isDelete) {
-                throw new NotFoundException("Recipe not found");
-            }
+//            boolean isDelete = delete.execute();
+//            if (!isDelete) {
+//                throw new NotFoundException("Recipe not found");
+//            }
         }catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -155,7 +155,12 @@ public class RecipeDao {
 
     private static final String FIND_ALL_RECIPES_BY_ADMINID_QUERY = "SELECT * FROM recipe WHERE admin_id = ?";
 
-
+    /**
+     * Metoda zwracająca listę wszystkich przepisów danego użytkownika
+     *
+     * @param adminId - id aktualnie zalogowanego użytkownika
+     * @return - listę wszystkich przepisów danego użytkownika
+     */
     public static List<Recipe> findAllRecipeByAdminId(int adminId) {
         List<Recipe> recipeList = new ArrayList<>();
         try (PreparedStatement ps = DbUtil.getConnection().prepareStatement(FIND_ALL_RECIPES_BY_ADMINID_QUERY)) {

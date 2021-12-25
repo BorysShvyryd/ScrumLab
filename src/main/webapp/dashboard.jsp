@@ -39,12 +39,11 @@
     </div>
     <div class="m-4 p-4 border-dashed">
         <h2 class="dashboard-content-title">
-            <span>Ostatnio dodany plan:</span> ${lastPlanName}
+            <span>Ostatnio dodany plan:</span> ${lastPlan.getName()}
         </h2>
         <table class="table">
-            <%--                    kod po dniah--%>
             <c:set var="varDay" value=""/>
-            <c:forEach var="day" items="${lastPlan}" varStatus="index">
+            <c:forEach var="day" items="${lastPlanDetails}" varStatus="index">
                 <c:if test="${not varDay.equals(day[1])}">
                     <thead>
                     <tr class="d-flex">
@@ -66,9 +65,7 @@
                 </tr>
 
                 </tbody>
-                <%--                        </c:forEach>--%>
             </c:forEach>
-            <%--                    kod po dniah--%>
         </table>
     </div>
 </div>

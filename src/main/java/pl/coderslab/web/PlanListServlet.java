@@ -18,7 +18,7 @@ public class PlanListServlet extends HttpServlet {
         Admin loginedAdmin = AdminDao.getLoginedAdmin(request.getSession());
         request.setAttribute("loginedAdmin", loginedAdmin);
         List<Plan> plans = PlanDao.findAllPlanByAdminId(loginedAdmin.getId());
-        plans.sort(Comparator.comparing(Plan::getCreated).reversed());
+//        plans.sort(Comparator.comparing(Plan::getCreated).reversed());
         request.setAttribute("plan", plans);
         getServletContext().getRequestDispatcher("/planlist.jsp").forward(request, response);
 

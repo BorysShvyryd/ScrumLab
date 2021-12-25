@@ -24,7 +24,6 @@ public class PlanDeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PlanDao.delete(Integer.parseInt(request.getParameter("plan_id")));
-        request.getParameter("plan_id");
         response.sendRedirect("/app/plan/list");
     }
 }

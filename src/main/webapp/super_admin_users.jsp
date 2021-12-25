@@ -10,7 +10,7 @@
                 <h3 class="color-header text-uppercase">LISTA UŻYTKOWNIKÓW</h3>
             </div>
             <div class="col d-flex justify-content-end mb-2 noPadding">
-                <a href="javascript:history.go(-1)" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                <a href="/app/dashboard" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
             </div>
         </div>
 
