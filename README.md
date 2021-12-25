@@ -70,3 +70,4 @@ Plik znajduje się w naszym projekcie w katalogu **src/main/webapp/META-INF**.
 
 `Zmodyfikuj znajdujące się w nim dane dotyczące połączenia.`
 
+# ScrumLab
